@@ -1,0 +1,4 @@
+<resources>
+    <string name="client_display_name">Company A</string>
+    <string name="welcome_message">Welcome to Company A</string>
+</resources>
