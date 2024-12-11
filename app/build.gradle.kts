@@ -27,8 +27,9 @@ android {
             versionNameSuffix = "-companyA"
 
             resValue("string", "client_name", "Company A")
-            buildConfigField("string", "BASE_URL", "https://companyA.com/api")
-            buildConfigField("string", "API_KEY", "COMPANYA_API_KEY")
+            buildConfigField("String", "BASE_URL", "\"https://companyA.com/api\"")
+            buildConfigField("String", "API_KEY", "\"COMPANYA_API_KEY\"")
+            buildConfigField("String", "COMPANY", "\"COMPANY_A\"")
         }
 
         create("companyB") {
@@ -37,8 +38,9 @@ android {
             versionNameSuffix = "-companyB"
 
             resValue("string", "client_name", "Company B")
-            buildConfigField("string", "BASE_URL", "https://companyB.com/api")
-            buildConfigField("string", "API_KEY", "COMPANYB_API_KEY")
+            buildConfigField("String", "BASE_URL", "\"https://companyB.com/api\"")
+            buildConfigField("String", "API_KEY", "\"COMPANYB_API_KEY\"")
+            buildConfigField("String", "COMPANY", "\"COMPANY_B\"")
         }
 
         create("free") {
@@ -67,6 +69,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+
+    sourceSets {
+        getByName("free") {
+            java.srcDirs("src/free/java")
+        }
+
+        getByName("paid") {
+            java.srcDirs("src/paid/java")
         }
     }
 
@@ -118,19 +130,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-}
-
-tasks.register("adjustVersionForPaidFlavors") {
-    doLast {
-        val baseVersionCode = android.defaultConfig.versionCode ?: 100
-        android.productFlavors.forEach { flavor ->
-            if (flavor.name.contains("paid")) {
-                flavor.versionCode = baseVersionCode + 1000
-            }
-        }
-    }
-}
-
-tasks.named("preBuild") {
-    dependsOn("adjustVersionForPaidFlavors")
 }
