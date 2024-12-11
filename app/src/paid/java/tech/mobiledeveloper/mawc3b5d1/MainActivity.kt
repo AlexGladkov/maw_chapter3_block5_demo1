@@ -24,11 +24,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val mapManager = MapboxNavigationManager.getInstance()
+        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY)
 
         setContent {
-            MAWC3B5D1Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MapScreen(innerPadding, mapManager)
+            CompositionLocalProvider(
+                LocalHttpClient provides httpClient
+            ) {
+                MAWC3B5D1Theme {
+                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                        MapScreen(innerPadding, mapManager)
+                    }
                 }
             }
         }
