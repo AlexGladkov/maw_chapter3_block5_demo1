@@ -23,6 +23,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "MAWC3B5D1"
 include(":app")
-include(":whitelabel:companyA")
-include(":whitelabel:companyB")
-include(":core")

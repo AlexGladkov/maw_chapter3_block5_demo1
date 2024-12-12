@@ -18,64 +18,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    flavorDimensions += listOf("client", "price")
-
-    productFlavors {
-        create("companyA") {
-            dimension = "client"
-            applicationIdSuffix = ".companyA"
-            versionNameSuffix = "-companyA"
-
-            resValue("string", "client_name", "Company A")
-            buildConfigField("string", "BASE_URL", "https://companyA.com/api")
-            buildConfigField("string", "API_KEY", "COMPANYA_API_KEY")
-        }
-
-        create("companyB") {
-            dimension = "client"
-            applicationIdSuffix = ".companyB"
-            versionNameSuffix = "-companyB"
-
-            resValue("string", "client_name", "Company B")
-            buildConfigField("string", "BASE_URL", "https://companyB.com/api")
-            buildConfigField("string", "API_KEY", "COMPANYB_API_KEY")
-        }
-
-        create("free") {
-            dimension = "price"
-            applicationIdSuffix = ".free"
-            versionNameSuffix = "-free"
-        }
-
-        create("paid") {
-            dimension = "price"
-            applicationIdSuffix = ".paid"
-            versionNameSuffix = "-paid"
-        }
-    }
-
     buildTypes {
-        debug {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
-            isMinifyEnabled = false
-        }
-
         release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-    }
-
-    signingConfigs {
-        create("releaseKey") {
-            storeFile = file("keystore/release.jks")
-            storePassword = "password"
-            keyAlias = "release"
-            keyPassword = "password"
         }
     }
 
@@ -93,14 +42,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
-
-    add("companyAImplementation", project(":whitelabel:companyA"))
-    add("companyBImplementation", project(":whitelabel:companyB"))
-
-    add("freeImplementation", libs.yandex.ads)
-    add("paidImplementation", libs.mapbox)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -118,19 +59,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-}
-
-tasks.register("adjustVersionForPaidFlavors") {
-    doLast {
-        val baseVersionCode = android.defaultConfig.versionCode ?: 100
-        android.productFlavors.forEach { flavor ->
-            if (flavor.name.contains("paid")) {
-                flavor.versionCode = baseVersionCode + 1000
-            }
-        }
-    }
-}
-
-tasks.named("preBuild") {
-    dependsOn("adjustVersionForPaidFlavors")
 }
