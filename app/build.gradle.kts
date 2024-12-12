@@ -18,7 +18,49 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += listOf("company", "price")
+
+    productFlavors {
+        create("companyA") {
+            dimension = "company"
+            applicationIdSuffix = ".companyA"
+            versionNameSuffix = "-companyA"
+
+            buildConfigField("String", "BASE_URL", "\"https://companyA.com.api\"")
+            buildConfigField("String", "API_KEY", "\"COMPANY_A_API_KEY\"")
+            buildConfigField("String", "COMPANY", "\"COMPANY_A\"")
+        }
+
+        create("companyB") {
+            dimension = "company"
+            applicationIdSuffix = ".companyB"
+            versionNameSuffix = "-companyB"
+
+            buildConfigField("String", "BASE_URL", "\"https://companyB.com.api\"")
+            buildConfigField("String", "API_KEY", "\"COMPANY_B_API_KEY\"")
+            buildConfigField("String", "COMPANY", "\"COMPANY_B\"")
+        }
+
+        create("free") {
+            dimension = "price"
+            applicationIdSuffix = ".free"
+            versionNameSuffix = "-free"
+        }
+
+        create("paid") {
+            dimension = "price"
+            applicationIdSuffix = ".paid"
+            versionNameSuffix = "-paid"
+        }
+    }
+
     buildTypes {
+        debug {
+//            applicationIdSuffix = ".debug"
+//            versionNameSuffix = "-debug"
+            isMinifyEnabled = false
+        }
+
         release {
             isMinifyEnabled = true
             proguardFiles(
@@ -42,6 +84,14 @@ android {
 }
 
 dependencies {
+    implementation(projects.core)
+
+    add("companyAImplementation", projects.whitelabel.companyA)
+    add("companyBImplementation", projects.whitelabel.companyB)
+
+    add("freeImplementation", libs.yandex.ads)
+    add("paidImplementation", libs.mapbox)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
