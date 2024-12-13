@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/AlexGladkov/maw_chapter3_block5_demo1'
+                git branch: 'pre-jenkins', url: 'https://github.com/AlexGladkov/maw_chapter3_block5_demo1'
             }
         }
 
