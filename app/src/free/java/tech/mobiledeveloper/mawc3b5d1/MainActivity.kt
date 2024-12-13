@@ -22,6 +22,8 @@ class MainActivity : ComponentActivity() {
         val mapManager = BasicMapManager.getInstance()
         val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY)
 
+        Log.e("TAG", "Hello, Activity")
+
         setContent {
             CompositionLocalProvider(
                 LocalHttpClient provides httpClient
