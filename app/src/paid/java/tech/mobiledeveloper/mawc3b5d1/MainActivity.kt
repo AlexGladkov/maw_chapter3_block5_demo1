@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val mapManager = MapboxNavigationManager.getInstance()
-        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY)
+        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test")
 
         setContent {
             CompositionLocalProvider(

@@ -5,7 +5,8 @@ import kotlinx.coroutines.delay
 
 class HttpClient(
     val baseUrl: String,
-    val apiKey: String
+    val apiKey: String,
+    val parameter: String
 ) {
 
     suspend fun makeRequest(): String {
