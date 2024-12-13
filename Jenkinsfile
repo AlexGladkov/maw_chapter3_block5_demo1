@@ -2,8 +2,17 @@ pipeline {
     agent any
     environment {
         ANDROID_HOME = "/Users/neuradev/Library/Android/sdk"
-        GRADLE_USER_HOME = "${JENKINS_HOME}/.gradle"
         PATH = "$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools"
+
+        COMPANY_A_BASE_URL = credentials("company_a_base_url")
+        COMPANY_A_API_KEY = credentials("company_a_api_key")
+
+        COMPANY_B_BASE_URL = credentials("company_b_base_url")
+        COMPANY_B_API_KEY = credentials("company_b_api_key")
+    }
+
+    parameters {
+        choice(name: 'FLAVOUR', choices: ['companyA', 'companyB'], description: 'Выберите flavour для сборки')
     }
 
     stages {
@@ -13,26 +22,14 @@ pipeline {
             }
         }
 
-        stage("Build") {
-            parallel {
-                stage('Build-A') {
-                    steps {
-                        sh "./gradlew clean assembleCompanyAFree assembleCompanyAPaid --build-cache"
-                    }
+        stage('Build') {
+            steps {
+                script {
+                    def flavour = params.FLAVOUR
+                    sh "./gradlew clean assemble${flavour}Free assemble${flavour}Paid --build-cache"
                 }
 
-                stage('Build-B') {
-                    steps {
-                        sh "./gradlew clean assembleCompanyBFree assembleCompanyBPaid --build-cache"
-                    }
-                }
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'app/build/outputs/apk/**/*.apk', fingerprint: true
         }
     }
 }

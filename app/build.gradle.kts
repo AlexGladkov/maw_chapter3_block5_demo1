@@ -27,8 +27,8 @@ android {
             versionNameSuffix = "-companyA"
 
             resValue("string", "client_name", "Company A")
-            buildConfigField("String", "BASE_URL", "\"https://companyA.com/api\"")
-            buildConfigField("String", "API_KEY", "\"COMPANYA_API_KEY\"")
+            buildConfigField("String", "BASE_URL", "\"${checkEnvironment("COMPANY_A_BASE_URL")}\"")
+            buildConfigField("String", "API_KEY", "\"${checkEnvironment("COMPANY_A_API_KEY")}\"")
             buildConfigField("String", "COMPANY", "\"COMPANY_A\"")
         }
 
@@ -38,8 +38,8 @@ android {
             versionNameSuffix = "-companyB"
 
             resValue("string", "client_name", "Company B")
-            buildConfigField("String", "BASE_URL", "\"https://companyB.com/api\"")
-            buildConfigField("String", "API_KEY", "\"COMPANYB_API_KEY\"")
+            buildConfigField("String", "BASE_URL", "\"${checkEnvironment("COMPANY_B_BASE_URL")}\"")
+            buildConfigField("String", "API_KEY", "\"${checkEnvironment("COMPANY_B_API_KEY")}\"")
             buildConfigField("String", "COMPANY", "\"COMPANY_B\"")
         }
 
@@ -132,24 +132,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
-/**
-sudo apt update
-
-sudo apt install openjdk-17-jre
-
-java -version
-
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
-/usr/share/keyrings/jenkins-keyring.asc > /dev/null
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-/etc/apt/sources.list.d/jenkins.list > /dev/null
-
-sudo apt-get update
-
-sudo apt-get install jenkins
-
-sudo systemctl start jenkins.service
-
-sudo systemctl status jenkins
- **/
+fun checkEnvironment(paramKey: String): String {
+    val param = System.getenv(paramKey) ?: throw GradleException("System param not set $paramKey")
+    return param
+}
