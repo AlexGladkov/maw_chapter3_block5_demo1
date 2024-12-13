@@ -1,6 +1,7 @@
 package tech.mobiledeveloper.mawc3b5d1
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        Log.e("TAG", "Hello, Activity")
 
         val mapManager = MapboxNavigationManager.getInstance()
         val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test")

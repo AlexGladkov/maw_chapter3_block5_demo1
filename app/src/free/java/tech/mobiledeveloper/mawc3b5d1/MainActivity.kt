@@ -2,6 +2,7 @@ package tech.mobiledeveloper.mawc3b5d1
 
 import BasicMapManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val mapManager = BasicMapManager.getInstance()
-        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY)
+        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test")
 
         Log.e("TAG", "Hello, Activity")
 
