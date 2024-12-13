@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         Log.e("TAG", "Hello, Activity")
 
         val mapManager = MapboxNavigationManager.getInstance()
-        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test")
+        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test", "Test")
 
         setContent {
             CompositionLocalProvider(

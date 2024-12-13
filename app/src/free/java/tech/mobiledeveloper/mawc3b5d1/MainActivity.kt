@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val mapManager = BasicMapManager.getInstance()
-        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test")
+        val httpClient = HttpClient(BuildConfig.BASE_URL, BuildConfig.API_KEY, "Test", "Test")
 
         Log.e("TAG", "Hello, Activity")
 
